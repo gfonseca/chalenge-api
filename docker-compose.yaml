@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  chalenge-api:
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+      - redis
+    volumes:
+      - ./:/app
+    depends_on: 
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+  redis:
+    image: redis 
+    ports:
+      - "6379:6379"

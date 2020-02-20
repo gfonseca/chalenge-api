@@ -1,0 +1,18 @@
+{
+  "name": "chalenge-api",
+  "version": "1.0.0",
+  "description": "O api-produtos é um serviço responsável pelo cadastro e listagem dos produtos favoritos dos usuários do site Magazine Luiza",
+  "main": "index.js",
+  "repository": "https://github.com/gfonseca/api-produtos",
+  "author": "Georgio Barbosa da Fonseca",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --inspect ./src/index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.1",
+    "nodemon": "^2.0.2"
+  }
+}
