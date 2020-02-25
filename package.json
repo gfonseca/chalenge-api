@@ -1,5 +1,5 @@
 {
-  "name": "chalenge-api",
+  "name": "ms-watchlist",
   "version": "1.0.0",
   "description": "O api-produtos é um serviço responsável pelo cadastro e listagem dos produtos favoritos dos usuários do site Magazine Luiza",
   "main": "index.js",
