@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('../database')
 
 const UserSchema = mongoose.Schema({
   name: {
@@ -10,6 +10,10 @@ const UserSchema = mongoose.Schema({
     unique: true,
     require: true,
     lowercase: true
+  },
+  password: {
+    type: String,
+    require: true
   }
 })
 
