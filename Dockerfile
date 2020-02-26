@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY package.json .
 RUN yarn install
-CMD yarn start
+CMD yarn dev
