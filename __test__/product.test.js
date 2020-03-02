@@ -1,7 +1,7 @@
-const dbHandler = require('../../src/database')
-const seedProduct = require('../../src/database/seed/seedProduct')
-const app = require('../../src/appController')
-const getProductModel = require('../../src/Product/models/Product')
+const dbHandler = require('../src/database')
+const seedProduct = require('../src/database/seed/seedProduct')
+const app = require('../src/appController')
+const getProductModel = require('../src/Product/models/Product')
 const request = require('supertest')
 
 let Product = null

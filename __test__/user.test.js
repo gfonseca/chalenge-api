@@ -1,15 +1,88 @@
-const dbHandler = require('../../src/database')
-const getUserModel = require('../../src/User/models/User')
-const getProductModel = require('../../src/Product/models/Product')
-const app = require('../../src/appController')
+const dbHandler = require('../src/database')
+const getUserModel = require('../src/User/models/User')
+const getProductModel = require('../src/Product/models/Product')
+const app = require('../src/appController')
 const request = require('supertest')
-const seedProduct = require('../../src/database/seed/seedProduct')
+const seedProduct = require('../src/database/seed/seedProduct')
 
 beforeAll(async () => await dbHandler.connect())
 afterEach(async () => await dbHandler.clearDatabase())
 afterAll(async () => await dbHandler.closeDatabase())
 
 describe('Auth', () => {
+  it('Should deny inexistent product in user watchlist', async () => {
+    const User = await getUserModel()
+
+    const user = await User.create({
+      name: 'foo bar',
+      email: 'foo@watchlist.com',
+      password: '12345678'
+    })
+
+    const jwt = user.signJWT()
+
+    const response = await request(app)
+      .post('/user/watchlist/')
+      .set('Authorization', 'Bearer ' + jwt)
+      .send({ id: '41224d776a326fb40f000001' })
+
+    expect(response.status).toBe(400)
+    expect(response.body.error).toBe('Product not exists')
+  })
+
+  it('Should deny duplicated product in user watchlist', async () => {
+    await seedProduct()
+    const User = await getUserModel()
+    const Product = await getProductModel()
+
+    const product = await Product.findOne({})
+    const user = await User.create({
+      name: 'foo bar',
+      email: 'foo@watchlist.com',
+      password: '12345678'
+    })
+
+    const jwt = user.signJWT()
+
+    await request(app)
+      .post('/user/watchlist/')
+      .set('Authorization', 'Bearer ' + jwt)
+      .send({ id: product._id })
+
+    const response = await request(app)
+      .post('/user/watchlist/')
+      .set('Authorization', 'Bearer ' + jwt)
+      .send({ id: product._id })
+
+    expect(response.status).toBe(400)
+    expect(response.body.error).toBe('Product already saved')
+  })
+
+  it('Should add a product in user watchlist', async () => {
+    await seedProduct()
+    const User = await getUserModel()
+    const Product = await getProductModel()
+
+    const product = await Product.findOne({})
+    const user = await User.create({
+      name: 'foo bar',
+      email: 'foo@watchlist.com',
+      password: '12345678'
+    })
+
+    const jwt = user.signJWT()
+
+    const response = await request(app)
+      .post('/user/watchlist/')
+      .set('Authorization', 'Bearer ' + jwt)
+      .send({ id: product._id })
+
+    const userTest = await User.findOne({ _id: user.id })
+
+    expect(userTest.watchlist.length).toBe(1)
+    expect(response.status).toBe(201)
+  })
+
   it('Should return user watchlist', async () => {
     await seedProduct()
     const User = await getUserModel()
@@ -221,36 +294,4 @@ describe('Register', () => {
     expect(response.status).toBe(400)
     expect(response.body.error).toEqual('Path `password` is required.')
   })
-
-  // describe('Watchlist', () => {
-  //   it('Should return ')
-  // })
-
-  it('Should vaildate password lenght min >= 4', async () => {
-    const response = await request(app)
-      .post('/user/register')
-      .send({
-        password: '12',
-        email: 'foo@bar.com.br',
-        name: 'Foo Bar'
-      })
-
-    expect(response.status).toBe(400)
-    expect(response.body.error).toEqual('Path `password` (`12`) is shorter than the minimum allowed length (4).')
-  })
-
-  it('Should vaildate password lenght max <= 20', async () => {
-    const response = await request(app)
-      .post('/user/register')
-      .send({
-        password: '999999999999999999999',
-        email: 'foo@bar.com.br',
-        name: 'Foo Bar'
-      })
-
-    expect(response.status).toBe(400)
-    expect(response.body.error).toEqual('Path `password` (`999999999999999999999`) is longer than the maximum allowed length (20).')
-  })
-
-  // it('Should vaildate', async () =>{})
 })

@@ -1,5 +1,5 @@
 const express = require('express')
-const { register, auth } = require('./service/')
+const { register, auth, setWatchlist } = require('./service/')
 const { authMiddleware } = require('../middlewares')
 const getUserModel = require('../User/models/User')
 const getProductModel = require('../Product/models/Product')
@@ -19,6 +19,15 @@ router.get('/', authMiddleware, async (req, res) => {
   const User = await getUserModel()
   const user = await User.findOne({ _id: req.userId })
   res.status(200).send(user)
+})
+
+router.post('/watchlist/', authMiddleware, async (req, res) => {
+  try {
+    await setWatchlist(req.userId, req.body.id)
+    res.status(201).send()
+  } catch (error) {
+    res.status(400).send({ error: error.message })
+  }
 })
 
 router.get('/watchlist/', authMiddleware, async (req, res) => {

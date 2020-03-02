@@ -1,5 +1,4 @@
 const getUserModel = require('../models/User')
-const { formatMongoErrors } = require('../../utils')
 
 const register = async ({ name, email, password }) => {
   const User = await getUserModel()
@@ -10,10 +9,10 @@ const register = async ({ name, email, password }) => {
 
   const user = new User({
     name,
-    email,
-    password
+    email
   })
 
+  user.password = password
   const fail = user.validateSync()
   const errorOutput = []
   if (fail) {
@@ -24,6 +23,7 @@ const register = async ({ name, email, password }) => {
 
     throw new Error(errorOutput.join('\n'))
   }
+
   user.save()
   return user
 }

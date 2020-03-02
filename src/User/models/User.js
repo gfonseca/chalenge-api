@@ -23,9 +23,7 @@ const defineUser = async () => {
     },
     password: {
       type: String,
-      required: true,
-      minlength: 4,
-      maxlength: 20
+      required: true
     },
     watchlist: [
       { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }
