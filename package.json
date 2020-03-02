@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "nodemon --inspect ./src/index.js",
     "start": "node ./src/index.js",
+    "seed": "node ./.bin/seed-product.js",
     "test": "NODE_ENV=test; jest --detectOpenHandles --coverage"
   },
   "dependencies": {
