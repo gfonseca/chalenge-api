@@ -22,7 +22,11 @@ $ docker-compose build && docker-compose up
 ```
 
 Após este passo é possível acessar a aplicação através da porta 3000 que estara disponível localmente
-
+___
+ ***Opcionalmente é possível executar os seeds do projeto para popular o banco de dados***
+ ```
+ docker exec -it ms-watchlist yarn seed
+ ```
 _______
 Também é possível executar o servidor sem uso do docker
 ```sh

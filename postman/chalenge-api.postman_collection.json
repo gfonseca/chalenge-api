@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": {{user_name}},\n\t\"email\": {{user_email}},\n\t\"password\": {{password}}\n}",
+							"raw": "{\n\t\"name\": \"{{user_name}}\",\n\t\"email\": \"{{user_email}}\",\n\t\"password\": \"{{password}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -58,7 +58,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": {{user_email}},\n\t\"password\": {{user_password}}\n}",
+							"raw": "{\n\t\"email\": \"{{user_email}}\",\n\t\"password\": \"{{user_password}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -130,7 +130,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\": {{product_id}}\n}",
+							"raw": "{\n\t\"id\": \"{{product_id}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -221,14 +221,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/product/{{product_id}}",
+							"raw": "localhost:3000/product/{{id_produt}}",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"product",
-								"{{product_id}}"
+								"{{id_produt}}"
 							]
 						},
 						"description": "Show a single product\n/product/$product_id"

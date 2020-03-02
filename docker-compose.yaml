@@ -2,13 +2,12 @@ version: "3"
 
 services:
   ms-watchlist:
+    container_name: ms-watchlist
     build: .
     ports:
       - "3000:3000"
     links:
       - mongo
-    volumes:
-      - ./:/app
     depends_on: 
       - mongo
   mongo:
