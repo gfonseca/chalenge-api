@@ -108,7 +108,7 @@ describe('Auth', () => {
     expect(response.body.products[0]).toHaveProperty('title')
     expect(response.body.products[0]).toHaveProperty('reviewScore')
     expect(response.body.products[0]).toHaveProperty('price')
-    expect(response.body.products[0]).toHaveProperty('_id')
+    expect(response.body.products[0]).toHaveProperty('id')
   })
   it('Should block request with invalid token', async () => {
     const response = await request(app)

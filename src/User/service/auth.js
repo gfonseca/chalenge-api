@@ -1,6 +1,5 @@
 const getUserModel = require('../models/User')
 const bcrypt = require('bcrypt')
-const { formatMongoErrors } = require('../../utils')
 
 const auth = async ({ email, password }) => {
   const User = await getUserModel()
