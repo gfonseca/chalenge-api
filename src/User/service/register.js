@@ -1,7 +1,10 @@
-const User = require('../models/User')
+const getUserModel = require('../models/User')
+const { formatMongoErrors } = require('../../utils')
 
 const register = async ({ name, email, password }) => {
-  if (await User.findOne({ email })) {
+  const User = await getUserModel()
+  const testUser = await User.findOne({ email })
+  if (testUser) {
     throw new Error('`email` already in use')
   }
 
@@ -21,7 +24,7 @@ const register = async ({ name, email, password }) => {
 
     throw new Error(errorOutput.join('\n'))
   }
-
+  user.save()
   return user
 }
 
