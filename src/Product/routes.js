@@ -22,7 +22,6 @@ router.get('/', async (req, res) => {
     const result = await list(req.query.page)
     res.status(200).send(result)
   } catch (error) {
-    console.log(error)
     res.status(400).send({ error: error.message })
   }
 })

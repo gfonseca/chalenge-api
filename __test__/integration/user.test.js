@@ -1,13 +1,42 @@
 const dbHandler = require('../../src/database')
 const getUserModel = require('../../src/User/models/User')
+const getProductModel = require('../../src/Product/models/Product')
 const app = require('../../src/appController')
 const request = require('supertest')
+const seedProduct = require('../../src/database/seed/seedProduct')
 
 beforeAll(async () => await dbHandler.connect())
 afterEach(async () => await dbHandler.clearDatabase())
 afterAll(async () => await dbHandler.closeDatabase())
 
 describe('Auth', () => {
+  it('Should return user watchlist', async () => {
+    await seedProduct()
+    const User = await getUserModel()
+    const Product = await getProductModel()
+
+    const products = await Product.find({}).limit(4)
+    const user = await User.create({
+      name: 'foo bar',
+      email: 'foo@watchlist.com',
+      password: '12345678',
+      watchlist: products
+    })
+
+    const jwt = user.signJWT()
+
+    const response = await request(app)
+      .get('/user/watchlist/')
+      .set('Authorization', 'Bearer ' + jwt)
+
+    expect(response.status).toBe(200)
+    expect(response.body.products.length).toBe(4)
+    expect(response.body.products[0]).toHaveProperty('image')
+    expect(response.body.products[0]).toHaveProperty('title')
+    expect(response.body.products[0]).toHaveProperty('reviewScore')
+    expect(response.body.products[0]).toHaveProperty('price')
+    expect(response.body.products[0]).toHaveProperty('_id')
+  })
   it('Should block request with invalid token', async () => {
     const response = await request(app)
       .get('/user/')

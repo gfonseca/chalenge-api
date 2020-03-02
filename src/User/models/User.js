@@ -26,7 +26,10 @@ const defineUser = async () => {
       required: true,
       minlength: 4,
       maxlength: 20
-    }
+    },
+    watchlist: [
+      { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }
+    ]
   })
   UserSchema.methods.signJWT = function () {
     return jwt.sign({ id: this._id }, process.env.APP_SECRET)

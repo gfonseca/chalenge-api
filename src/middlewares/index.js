@@ -1,5 +1,7 @@
 const authMiddleware = require('./authMiddleware')
+const logMiddleware = require('./logMiddleware')
 
 module.exports = {
-  authMiddleware
+  authMiddleware,
+  logMiddleware
 }
