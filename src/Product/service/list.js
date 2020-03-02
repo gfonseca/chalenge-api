@@ -10,9 +10,19 @@ const list = async (reqPage) => {
   const products = await Product.find({})
     .skip((page * pPage) - pPage)
     .limit(pPage)
+    .select('-_v')
 
   return {
-    products,
+    products: products.map(p => {
+      return {
+        id: p._id,
+        title: p.title,
+        price: p.price,
+        brand: p.brand,
+        image: p.image,
+        reviewScore: p.reviewScore
+      }
+    }),
     numOfProducts,
     currentPage: page,
     totalPages: totalPages
